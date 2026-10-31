@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>首页 · 历史文化中的大国重器</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+
+    <main class="main">
+      <section class="carousel" id="hero" aria-label="主题轮播" style="--carousel-duration:5s;">
+        <article class="slide is-active">
+          <div class="slide-bg" aria-hidden="true" style="background-image:linear-gradient(135deg,#1b2a38,#0c1218 55%,#3a1d1a);"></div>
+          <div class="slide-inner">
+            <div class="slide-kicker">CHAPTER 01 · 交通</div>
+            <h2>中国高铁</h2>
+            <p>以速度重构地理距离，铸就当代基建象征。</p>
+            <a class="slide-cta" href="series-transport.html">进入交通主题 <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="slide">
+          <div class="slide-bg" aria-hidden="true" style="background-image:linear-gradient(145deg,#142033,#0c1218 50%,#2a2410);"></div>
+          <div class="slide-inner">
+            <div class="slide-kicker">CHAPTER 02 · 航天</div>
+            <h2>载人航天与探月</h2>
+            <p>从近地轨道到月球背面的自主探索。</p>
+            <a class="slide-cta" href="series-space.html">进入航天主题 <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="slide">
+          <div class="slide-bg" aria-hidden="true" style="background-image:linear-gradient(150deg,#102018,#0c1218 48%,#2b1a12);"></div>
+          <div class="slide-inner">
+            <div class="slide-kicker">CHAPTER 03 · 能源算力</div>
+            <h2>看不见的重器</h2>
+            <p>超算、核电与特高压，托起科研与低碳底座。</p>
+            <a class="slide-cta" href="series-energy.html">进入能源主题 <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <div class="carousel-arrows" aria-hidden="false">
+          <button type="button" id="prevSlide" aria-label="上一张"><i class="fa-solid fa-chevron-left"></i></button>
+          <button type="button" id="nextSlide" aria-label="下一张"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-nav" id="carouselDots" role="tablist" aria-label="轮播指示"></div>
+      </section>
+
+      <section class="home-duo">
+        <div class="home-block">
+          <div class="section-head-row">
+            <div class="section-head">
+              <h3>重器动态</h3>
+              <p>工程进展与公共叙事</p>
+            </div>
+            <a class="more-link" href="artifacts.html">更多 →</a>
+          </div>
+          <ul class="news-list" id="newsList"></ul>
+        </div>
+        <div class="home-block">
+          <div class="section-head-row">
+            <div class="section-head">
+              <h3>文脉快讯</h3>
+              <p>历史文化视角速览</p>
+            </div>
+            <a class="more-link" href="culture.html">更多 →</a>
+          </div>
+          <ul class="news-list" id="flashList"></ul>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <div class="section-head-row">
+          <div class="section-head">
+            <h3>重器典藏</h3>
+            <p>代表性工程与装备 · 点击进入详情</p>
+          </div>
+          <a class="more-link" href="artifacts.html">全部典藏 →</a>
+        </div>
+        <div class="grid" id="artifactGrid"></div>
+      </section>
+
+      <section class="home-section">
+        <div class="section-head-row">
+          <div class="section-head">
+            <h3>重器视角</h3>
+            <p>主题图集入口</p>
+          </div>
+        </div>
+        <div class="entry-grid" id="viewGrid"></div>
+      </section>
+
+      <section class="home-section">
+        <div class="section-head-row">
+          <div class="section-head">
+            <h3>展陈公告</h3>
+            <p>开放说明与参观导览</p>
+          </div>
+          <a class="more-link" href="about.html">关于我们 →</a>
+        </div>
+        <ul class="news-list notice-list" id="noticeList"></ul>
+      </section>
+
+      <section class="home-duo">
+        <div class="home-block">
+          <div class="section-head-row">
+            <div class="section-head">
+              <h3>主题陈列</h3>
+              <p>交通 · 航天 · 能源</p>
+            </div>
+            <a class="more-link" href="series-transport.html">进入系列 →</a>
+          </div>
+          <div class="entry-grid entry-grid-2" id="seriesPreview"></div>
+        </div>
+        <div class="home-block">
+          <div class="section-head-row">
+            <div class="section-head">
+              <h3>时代脉络</h3>
+              <p>关键历史节点</p>
+            </div>
+            <a class="more-link" href="timeline.html">完整脉络 →</a>
+          </div>
+          <ul class="news-list" id="timelinePreview"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer id="siteFooter"></footer>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>window.DGZQLayout.init();</script>
+  <script src="js/main.js"></script>
+</body>
+</html>

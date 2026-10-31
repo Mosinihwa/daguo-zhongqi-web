@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>时代脉络 · 历史文化中的大国重器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+    <main class="main page-wrap">
+      <section class="page-hero">
+        <p class="page-kicker">TIMELINE · 时代脉络</p>
+        <h1>时代脉络</h1>
+        <p>关键历史节点。点击进入详情，可与对应展项、文脉文章互相跳转。</p>
+      </section>
+      <section class="section">
+        <div class="timeline" id="timelineList"></div>
+      </section>
+    </main>
+    <footer id="siteFooter"></footer>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    window.DGZQLayout.init();
+    var root = document.getElementById("timelineList");
+    if (root && window.DGZQCatalog) {
+      root.innerHTML = window.DGZQCatalog.listByGroup("timeline")
+        .map(function (it) {
+          return (
+            '<a class="timeline-item timeline-card" href="detail.html?id=' +
+            encodeURIComponent(it.id) +
+            '"><div class="timeline-year">' +
+            it.tag +
+            "</div><div><strong>" +
+            it.title +
+            '</strong><p class="muted">' +
+            it.summary +
+            '</p><span class="artifact-link">查看详情 →</span></div></a>'
+          );
+        })
+        .join("");
+    }
+  </script>
+</body>
+</html>

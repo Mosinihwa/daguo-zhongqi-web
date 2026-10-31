@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>重器典藏 · 历史文化中的大国重器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+    <main class="main page-wrap">
+      <section class="page-hero">
+        <p class="page-kicker">ARTIFACTS · 重器典藏</p>
+        <h1>重器典藏</h1>
+        <p>代表性工程与装备展区。点击卡片进入详情，可继续阅读相关时间节点与文脉文章。</p>
+      </section>
+      <section class="section">
+        <div class="grid" id="artifactList"></div>
+      </section>
+    </main>
+    <footer id="siteFooter"></footer>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    window.DGZQLayout.init();
+    var root = document.getElementById("artifactList");
+    if (root && window.DGZQCatalog) {
+      root.innerHTML = window.DGZQCatalog.listByGroup("artifacts")
+        .map(function (it) {
+          return (
+            '<a class="artifact artifact-card" href="detail.html?id=' +
+            encodeURIComponent(it.id) +
+            '"><span class="tag">' +
+            it.tag +
+            "</span><h4>" +
+            it.title +
+            "</h4><p>" +
+            it.summary +
+            '</p><span class="artifact-link">查看详情 →</span></a>'
+          );
+        })
+        .join("");
+    }
+  </script>
+</body>
+</html>

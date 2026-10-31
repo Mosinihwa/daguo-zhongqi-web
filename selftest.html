@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自检 · 大国重器</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding: 2rem; }
+    .ok { color: #8fbf8a; }
+    .bad { color: #b23a2f; }
+    li { margin: 0.35rem 0; }
+  </style>
+</head>
+<body>
+  <h1>交互自检</h1>
+  <p><a href="index.html">← 回首页</a></p>
+  <ul id="results"></ul>
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    var results = document.getElementById("results");
+    function assert(name, cond) {
+      var li = document.createElement("li");
+      li.className = cond ? "ok" : "bad";
+      li.textContent = (cond ? "[OK] " : "[FAIL] ") + name;
+      results.appendChild(li);
+    }
+    assert("DGZQAuth 存在", !!window.DGZQAuth);
+    assert("DGZQCatalog 存在", !!window.DGZQCatalog);
+    assert("DGZQLayout 存在", !!window.DGZQLayout);
+    assert("requireAuth 不再被 layout 强制调用（可匿名浏览）", typeof window.DGZQLayout.init === "function");
+    assert("catalog 含 artifacts", window.DGZQCatalog.listByGroup("artifacts").length >= 4);
+    assert("catalog 含 news/flash/notice/culture", 
+      window.DGZQCatalog.listByGroup("news").length >= 1 &&
+      window.DGZQCatalog.listByGroup("flash").length >= 1 &&
+      window.DGZQCatalog.listByGroup("notice").length >= 1 &&
+      window.DGZQCatalog.listByGroup("culture").length >= 1
+    );
+    assert("getItem(fuxing)", !!window.DGZQCatalog.getItem("fuxing"));
+    assert("exhibitingNow", window.DGZQCatalog.exhibitingNow("fuxing", 3).length === 3);
+  </script>
+</body>
+</html>

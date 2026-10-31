@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>航天深空 · 主题陈列</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+    <main class="main page-wrap">
+      <section class="page-hero page-hero-space">
+        <p class="page-kicker">EXHIBITS · SPACE</p>
+        <h1>航天深空</h1>
+        <p>从近地空间站到探月工程，呈现自主探索能力的递进。</p>
+        <p class="page-path">主题陈列 / 航天深空</p>
+      </section>
+      <section class="section">
+        <div class="series-nav">
+          <a href="series-transport.html">交通基建</a>
+          <a class="is-active" href="series-space.html">航天深空</a>
+          <a href="series-energy.html">算力能源</a>
+        </div>
+        <div class="grid">
+          <a class="artifact artifact-card" href="detail.html?id=tiangong">
+            <span class="tag">空间站</span>
+            <h4>天宫</h4>
+            <p>近地长期有人照料平台，支撑科研与技术验证。</p>
+            <span class="artifact-link">查看详情 →</span>
+          </a>
+          <a class="artifact artifact-card" href="detail.html?id=changee">
+            <span class="tag">探月</span>
+            <h4>嫦娥工程</h4>
+            <p>绕落回与采样返回，拓展深空探测边界。</p>
+            <span class="artifact-link">查看详情 →</span>
+          </a>
+          <a class="artifact artifact-card" href="detail.html?id=longmarch">
+            <span class="tag">运载</span>
+            <h4>长征系列</h4>
+            <p>可靠运载体系，托举卫星与载人飞行任务。</p>
+            <span class="artifact-link">查看详情 →</span>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer id="siteFooter"></footer>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script>window.DGZQLayout.init();</script>
+</body>
+</html>

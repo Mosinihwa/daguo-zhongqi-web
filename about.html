@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>关于我们 · 历史文化中的大国重器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+    <main class="main page-wrap">
+      <section class="page-hero">
+        <p class="page-kicker">ABOUT · 关于我们</p>
+        <h1>关于我们</h1>
+        <p>本站以「历史文化中的大国重器」为主题，用网页展陈呈现国之重器、时代脉络与文脉阅读。</p>
+      </section>
+
+      <section class="section">
+        <div class="contact-wrap">
+          <div>
+            <div class="section-head" style="margin-bottom:1rem;">
+              <h3>展陈说明</h3>
+              <p>交互参考机构官网：首页多区块聚合，栏目列表进入详情，详情提供相关阅读与「正在展出」。</p>
+            </div>
+            <ul class="news-list notice-list" id="aboutNotices"></ul>
+            <p class="muted" style="margin-top:1.25rem;">
+              可选功能：<a href="login.html" style="color:var(--bronze);">登录演示</a>（不强制，账号仅存本机）
+            </p>
+          </div>
+          <form class="contact-form" id="contactForm">
+            <div class="section-head" style="margin-bottom:0.5rem;">
+              <h3>留言联系</h3>
+              <p>前端校验演示，不连接真实接口。</p>
+            </div>
+            <div class="field">
+              <label for="name">姓名</label>
+              <input id="name" name="name" type="text" placeholder="你的姓名" required />
+            </div>
+            <div class="field">
+              <label for="email">邮箱</label>
+              <input id="email" name="email" type="email" placeholder="name@example.com" required />
+            </div>
+            <div class="field">
+              <label for="message">留言</label>
+              <textarea id="message" name="message" placeholder="想说的话…" required></textarea>
+            </div>
+            <div class="form-ok" id="contactMsg"></div>
+            <button class="btn" type="submit"><i class="fa-solid fa-paper-plane"></i> 提交留言</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer id="siteFooter"></footer>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    window.DGZQLayout.init();
+    var list = document.getElementById("aboutNotices");
+    if (list && window.DGZQCatalog) {
+      list.innerHTML = window.DGZQCatalog.listByGroup("notice")
+        .map(function (it) {
+          return (
+            '<li><a href="detail.html?id=' +
+            encodeURIComponent(it.id) +
+            '"><span>' +
+            it.title +
+            "</span></a></li>"
+          );
+        })
+        .join("");
+    }
+  </script>
+  <script src="js/contact.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>登录 · 历史文化中的大国重器</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-shell">
+    <aside class="auth-brand">
+      <div class="auth-eyebrow">NATIONAL TREASURES</div>
+      <h1>历史文化中的<br />大国重器</h1>
+      <p>可选功能演示。业务页已可直接浏览；登录仅用于课设能力展示。</p>
+    </aside>
+
+    <section class="auth-panel">
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab is-active" id="tabLogin" data-tab="login">登录</button>
+        <button type="button" class="auth-tab" id="tabRegister" data-tab="register">注册</button>
+      </div>
+
+      <form class="auth-form is-active" id="loginForm" autocomplete="on">
+        <div class="field">
+          <label for="loginUser">用户名</label>
+          <input id="loginUser" name="username" type="text" placeholder="2–16 位中英文/数字" required />
+        </div>
+        <div class="field">
+          <label for="loginPwd">密码</label>
+          <input id="loginPwd" name="password" type="password" placeholder="至少 6 位" required />
+        </div>
+        <div class="auth-msg" id="loginMsg"></div>
+        <button class="btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> 进入展陈</button>
+        <button class="btn btn-ghost" type="button" id="demoLoginBtn">
+          <i class="fa-solid fa-bolt"></i> 一键体验（demo / demo123）
+        </button>
+      </form>
+
+      <form class="auth-form" id="registerForm" autocomplete="on">
+        <div class="field">
+          <label for="regUser">用户名</label>
+          <input id="regUser" name="username" type="text" placeholder="2–16 位中英文/数字" required />
+        </div>
+        <div class="field">
+          <label for="regPwd">密码</label>
+          <input id="regPwd" name="password" type="password" placeholder="至少 6 位" required />
+        </div>
+        <div class="field">
+          <label for="regPwd2">确认密码</label>
+          <input id="regPwd2" name="password2" type="password" placeholder="再次输入密码" required />
+        </div>
+        <div class="auth-msg" id="registerMsg"></div>
+        <button class="btn" type="submit"><i class="fa-solid fa-user-plus"></i> 创建账号</button>
+      </form>
+
+      <p class="auth-hint">演示站点：账号保存在浏览器 localStorage，无真实后端。也可使用演示账号 demo / demo123。<a href="index.html" style="color:var(--bronze);">跳过登录，直接参观 →</a></p>
+    </section>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    (function () {
+      window.DGZQAuth.ensureDemoUser();
+
+      if (window.DGZQAuth.getSession()) {
+        window.DGZQAuth.goAfterLogin();
+        return;
+      }
+
+      var tabs = document.querySelectorAll(".auth-tab");
+      var loginForm = document.getElementById("loginForm");
+      var registerForm = document.getElementById("registerForm");
+      var loginMsg = document.getElementById("loginMsg");
+      var registerMsg = document.getElementById("registerMsg");
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          tabs.forEach(function (t) { t.classList.remove("is-active"); });
+          tab.classList.add("is-active");
+          var which = tab.getAttribute("data-tab");
+          loginForm.classList.toggle("is-active", which === "login");
+          registerForm.classList.toggle("is-active", which === "register");
+          loginMsg.textContent = "";
+          registerMsg.textContent = "";
+        });
+      });
+
+      document.getElementById("demoLoginBtn").addEventListener("click", function () {
+        window.DGZQAuth.loginAsDemo();
+      });
+
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var username = loginForm.username.value.trim();
+        var password = loginForm.password.value;
+        if (!window.DGZQAuth.validateUsername(username) || !window.DGZQAuth.validatePassword(password)) {
+          loginMsg.textContent = "请检查用户名（2–16 位）与密码（至少 6 位）。";
+          return;
+        }
+        var user = window.DGZQAuth.readUsers().find(function (u) {
+          return u.username === username && u.password === password;
+        });
+        if (!user) {
+          loginMsg.textContent = "用户名或密码错误。可点「一键体验」或先注册。";
+          return;
+        }
+        window.DGZQAuth.setSession(user);
+        window.DGZQAuth.goAfterLogin();
+      });
+
+      registerForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var username = registerForm.username.value.trim();
+        var password = registerForm.password.value;
+        var password2 = registerForm.password2.value;
+        if (!window.DGZQAuth.validateUsername(username)) {
+          registerMsg.textContent = "用户名需为 2–16 位中英文或数字。";
+          return;
+        }
+        if (!window.DGZQAuth.validatePassword(password)) {
+          registerMsg.textContent = "密码至少 6 位。";
+          return;
+        }
+        if (password !== password2) {
+          registerMsg.textContent = "两次输入的密码不一致。";
+          return;
+        }
+        var users = window.DGZQAuth.readUsers();
+        if (users.some(function (u) { return u.username === username; })) {
+          registerMsg.textContent = "该用户名已存在。";
+          return;
+        }
+        var user = { username: username, password: password };
+        users.push(user);
+        window.DGZQAuth.writeUsers(users);
+        window.DGZQAuth.setSession(user);
+        window.DGZQAuth.goAfterLogin();
+      });
+    })();
+  </script>
+</body>
+</html>

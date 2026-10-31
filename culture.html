@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>历史文化 · 历史文化中的大国重器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+    <main class="main page-wrap">
+      <section class="page-hero">
+        <p class="page-kicker">CULTURE · 历史文化</p>
+        <h1>历史文化</h1>
+        <p>文脉解读与快讯：从文明史坐标阅读大国重器，理解工程如何进入公共记忆。</p>
+      </section>
+      <section class="section">
+        <div class="section-head">
+          <h3>文脉解读</h3>
+          <p>长文阅读</p>
+        </div>
+        <div class="grid" id="cultureList"></div>
+      </section>
+      <section class="section">
+        <div class="section-head">
+          <h3>文脉快讯</h3>
+          <p>短讯速览</p>
+        </div>
+        <ul class="news-list" id="flashFullList"></ul>
+      </section>
+    </main>
+    <footer id="siteFooter"></footer>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    window.DGZQLayout.init();
+    var cultureList = document.getElementById("cultureList");
+    var flashList = document.getElementById("flashFullList");
+    if (window.DGZQCatalog) {
+      if (cultureList) {
+        cultureList.innerHTML = window.DGZQCatalog.listByGroup("culture")
+          .map(function (it) {
+            return (
+              '<a class="artifact artifact-card" href="detail.html?id=' +
+              encodeURIComponent(it.id) +
+              '"><span class="tag">' +
+              it.tag +
+              "</span><h4>" +
+              it.title +
+              "</h4><p>" +
+              it.summary +
+              '</p><span class="artifact-link">阅读全文 →</span></a>'
+            );
+          })
+          .join("");
+      }
+      if (flashList) {
+        flashList.innerHTML = window.DGZQCatalog.listByGroup("flash")
+          .map(function (it) {
+            return (
+              '<li><a href="detail.html?id=' +
+              encodeURIComponent(it.id) +
+              '"><span>' +
+              it.title +
+              '</span><span class="news-date">' +
+              (it.date || "") +
+              "</span></a></li>"
+            );
+          })
+          .join("");
+      }
+    }
+  </script>
+</body>
+</html>

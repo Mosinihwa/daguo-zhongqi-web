@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>LOGIC TEST</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app">
+    <header id="siteHeader"></header>
+    <main class="main">
+      <pre id="report" style="padding:1.5rem;">running...</pre>
+    </main>
+    <footer id="siteFooter"></footer>
+  </div>
+  <script src="js/auth.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    (function () {
+      var lines = [];
+      function ok(m) { lines.push("OK  " + m); }
+      function bad(m) { lines.push("BAD " + m); }
+
+      try {
+        window.DGZQAuth.clearReturnUrl();
+        window.DGZQAuth.clearSession();
+        if (window.DGZQAuth.isSafeTarget("detail.html?id=fuxing")) ok("safe detail target");
+        else bad("detail target should be safe");
+        if (!window.DGZQAuth.isSafeTarget("https://evil.com")) ok("reject absolute url");
+        else bad("absolute url wrongly accepted");
+
+        var ids = Object.keys(window.DGZQCatalog.items);
+        if (ids.length >= 20) ok("catalog size " + ids.length);
+        else bad("catalog size " + ids.length);
+        ids.forEach(function (id) {
+          var it = window.DGZQCatalog.getItem(id);
+          if (!it.back || !it.group || !it.title) bad("incomplete " + id);
+          window.DGZQCatalog.getRelated(it).forEach(function (r) {
+            if (!r || !r.id) bad("bad related under " + id);
+          });
+        });
+        ok("related resolve");
+        if (window.DGZQCatalog.listByGroup("culture").length >= 1) ok("culture group");
+        else bad("culture group missing");
+
+        history.replaceState({}, "", "/detail.html?id=changee");
+        window.DGZQLayout.init({
+          detailGroup: "series",
+          seriesPage: "series-space.html",
+        });
+        var space = document.querySelector('.site-sublink[href="series-space.html"]');
+        var transport = document.querySelector('.site-sublink[href="series-transport.html"]');
+        if (space && space.classList.contains("is-active")) ok("series-space active on changee detail");
+        else bad("series-space not active");
+        if (transport && !transport.classList.contains("is-active")) ok("transport inactive on space detail");
+        else bad("transport wrongly active");
+
+        history.replaceState({}, "", "/detail.html?id=fuxing");
+        window.DGZQLayout.init({ detailGroup: "artifacts", seriesPage: "" });
+        var art = document.querySelector('.site-nav-link[href="artifacts.html"]');
+        if (art && art.classList.contains("is-active")) ok("artifacts active on fuxing detail");
+        else bad("artifacts not active");
+
+        history.replaceState({}, "", "/detail.html?id=tl-2018");
+        window.DGZQLayout.init({ detailGroup: "timeline", seriesPage: "" });
+        var tl = document.querySelector('.site-nav-link[href="timeline.html"]');
+        if (tl && tl.classList.contains("is-active")) ok("timeline active on tl detail");
+        else bad("timeline not active");
+
+        var toggle = document.querySelector("[data-nav-toggle]");
+        var item = toggle && toggle.closest(".site-nav-item");
+        if (item) {
+          item.classList.remove("is-open");
+          toggle.click();
+          if (item.classList.contains("is-open")) ok("exhibit submenu toggles");
+          else bad("exhibit submenu broken");
+        } else bad("no exhibit toggle");
+
+        if (document.getElementById("siteFooter").innerHTML.indexOf("login.html") >= 0) {
+          ok("footer has login demo link");
+        } else bad("footer missing login link");
+
+        var passed = lines.every(function (l) { return l.indexOf("OK") === 0; });
+        document.title = passed ? "LOGIC TEST PASS" : "LOGIC TEST FAIL";
+        document.getElementById("report").textContent = document.title + "\n" + lines.join("\n");
+      } catch (e) {
+        document.title = "LOGIC TEST FAIL";
+        document.getElementById("report").textContent = "LOGIC TEST FAIL\n" + e.stack;
+      }
+    })();
+  </script>
+</body>
+</html>
